@@ -56,7 +56,8 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-            return View();
+            var product = new Product();
+            return View(product);
         }
 
         // POST: Admin/Products/Create
@@ -65,18 +66,18 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Photo,Price,Stock,CategoryId")]
-        Product product,IFormFile Photo)
+        Product product,IFormFile File)
           
         {
             if (ModelState.IsValid)
             {
-                if (Photo!=null&&Photo.Length>0)
+                if (File!=null&&File.Length>0)
                 {
                     //upload işlemi yapmak için konum belirle
                     string path = Path.Combine(_environment.WebRootPath, "uploads",
-                        Photo.FileName);
+                        File.FileName);
                     //upload dizini yoksa oluştur
-                    if (!Directory.Exists(Path.Combine(_environment.WebRootPath, "uploads")));
+                    if (!Directory.Exists(Path.Combine(_environment.WebRootPath, "uploads")))
                     {
                         Directory.CreateDirectory(Path.Combine
                             (_environment.WebRootPath,"uploads"));
@@ -84,10 +85,10 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                     //belirlenen konuma upload yapılır 
                     using(var stream=new FileStream(path, FileMode.Create))
                     {
-                        await Photo.CopyToAsync(stream);
+                        await File.CopyToAsync(stream);
                     }
                     //dosya adı entitye atanır
-                    product.Photo = Photo.FileName;
+                    product.Photo = File.FileName;
 
                 }
                 _context.Add(product);
@@ -121,7 +122,7 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Photo,Price," +
-            "Stock,CategoryId")] Product product, IFormFile Photo)
+            "Stock,CategoryId")] Product product, IFormFile File)
         {
             if (id != product.Id)
             {
@@ -131,13 +132,13 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
 
-                if (Photo != null && Photo.Length > 0)
+                if (File != null && File.Length > 0)
                 {
                     //upload işlemi yapmak için konum belirle
                     string path = Path.Combine(_environment.WebRootPath, "uploads",
-                        Photo.FileName);
+                        File.FileName);
                     //upload dizini yoksa oluştur
-                    if (!Directory.Exists(Path.Combine(_environment.WebRootPath, "uploads"))) ;
+                    if (!Directory.Exists(Path.Combine(_environment.WebRootPath, "uploads")))
                     {
                         Directory.CreateDirectory(Path.Combine
                             (_environment.WebRootPath, "uploads"));
@@ -145,10 +146,10 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                     //belirlenen konuma upload yapılır 
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
-                        await Photo.CopyToAsync(stream);
+                        await File.CopyToAsync(stream);
                     }
                     //dosya adı entitye atanır
-                    product.Photo = Photo.FileName;
+                    product.Photo = File.FileName;
 
                 }
                 try

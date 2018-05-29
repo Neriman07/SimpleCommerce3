@@ -1,0 +1,36 @@
+﻿@model IList<Book>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<a asp-action="Create" class="btn  btn-primary">Yeni Kitap Ekle</a>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Baslık</th>
+        <th>Yazar</th>
+        <th>Basım Yılı</th>
+        <th>Baskı Sayısı</th>
+        <th>Kategori</th>
+        <th>Eylemler</th>
+    </tr>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Id</td>
+            <td><a asp-action="Details" asp-route-id="@book.Id">@book.Baslik</a></td>
+            <td>@book.Yazar</td>
+            <td>@book.BasimYili</td>
+            <td>@book.BaskiSayisi</td>
+            <td>@book.Kategori</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@book.Id"
+                   class="btn btn-success">Düzenle</a>
+                <a asp-action="Delete" asp-route-id="@book.Id"
+                   onclick="return confirm('Bu kaydı silmek istediğinize emin misin?')"
+                   class="btn btn-danger">Sil</a>
+            </td>
+
+        </tr>
+    }
+</table>

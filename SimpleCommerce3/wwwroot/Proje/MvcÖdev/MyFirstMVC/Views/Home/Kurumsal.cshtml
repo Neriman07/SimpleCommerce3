@@ -1,0 +1,22 @@
+﻿
+@model IList<Day>
+@{
+    ViewData["Title"] = "Kurumsal";
+    Layout = null;
+}
+
+<h2>Kurumsal</h2>
+Neriman
+@{
+
+   
+}
+
+<table>
+    <tr><th>No</th><th>Gün</th></tr>
+    @foreach (var gun in Model)
+    {
+        
+       <tr><td>@gun.Id</td><td>= @gun.Name</td><td>@gun.DogumGunu</td></tr>
+    }
+</table>

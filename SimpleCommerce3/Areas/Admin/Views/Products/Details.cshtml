@@ -20,13 +20,14 @@
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Description)<br/><br />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Photo)
+            <img src="~/uploads/@Model.Photo" width="50" /><br />
+            @Html.DisplayFor(model => model.Photo)<br /><br />
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Price)

@@ -1,0 +1,32 @@
+﻿
+@model Book
+@{
+    ViewData["Title"] = "Müsteri Detayları";
+}
+
+<h2>Details</h2>
+<div class="row">
+    <div class="col-md-2">
+        <strong>Id:</strong><br />
+        <strong>Baslik:</strong><br />
+        <strong>Yazar:</strong><br />
+        <strong>kategori:</strong><br />
+        <strong>baskı sayısı:</strong><br />       
+        <strong>Basim yılı:</strong><br />
+
+
+
+    </div>
+    <div class="col-md-10">
+        @Model.Id<br />
+        @Model.Baslik<br />
+        @Model.Yazar<br />
+        @Model.Kategori<br />
+        @Model.BaskiSayisi<br />
+        @Model.BasimYili<br />
+
+        <a asp-action="Index" class="btn btn-success">&larr;Geri Dön</a>
+
+
+    </div>
+</div>

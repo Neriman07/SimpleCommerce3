@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Photo>
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>Resimler</h2>
+<a asp-action="Create">Yeni Resim</a>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Resim</th>
+        <th>Ad</th>
+        <th>Açıklama</th>
+        <th>Eylemler</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><img src="~/Uploads/@item.File" width="50" /></td>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+            <td><a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a></td>
+        </tr>
+    }
+
+</table>
+

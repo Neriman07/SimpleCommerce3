@@ -1,0 +1,44 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Create";
+}
+<h2>yeni müsteri</h2>
+<form asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Ad" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Ad" class="form-control" placeholder="Ad" />
+                <span asp-for="Ad" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Soyad" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Soyad" class="form-control" placeholder="Soyad" />
+                <span asp-for="Soyad" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="UyelikTarihi" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="UyelikTarihi" class="form-control" placeholder="uyelikTarihi" />
+                <span asp-for="UyelikTarihi" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Index" class="btn btn-danger">İptal</a>
+            </div>
+
+
+        </div>
+    </div>
+
+</form>

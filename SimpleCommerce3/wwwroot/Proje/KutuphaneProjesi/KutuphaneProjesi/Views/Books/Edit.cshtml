@@ -1,0 +1,63 @@
+﻿@model Book
+@{
+    ViewData["Title"] = "Create";
+}
+<h2>yeni kitap</h2>
+<form asp-action="Edit" method="post">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Baslik" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Baslik" class="form-control" placeholder="Adınız" />
+                <span asp-for="Baslik" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Yazar" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Yazar" class="form-control" placeholder="yazar" />
+                <span asp-for="Yazar" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="Kategori" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Kategori" class="form-control" placeholder="kategori" />
+                <span asp-for="Kategori" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BaskiSayisi" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="BaskiSayisi" class="form-control" placeholder="baski sayısı" />
+                <span asp-for="BaskiSayisi" class="text-danger"></span>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label asp-for="BasimYili" class="control-label  col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="BasimYili" class="form-control" placeholder="BasimYili" />
+                <span asp-for="BasimYili" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Index" class="btn btn-danger">İptal</a>
+            </div>
+
+
+        </div>
+    </div>
+
+</form>
+
+

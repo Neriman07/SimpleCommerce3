@@ -1,0 +1,63 @@
+﻿@model Customers
+@{
+    ViewData["Title"] = "Create";
+}
+<h2>yeni müsteri</h2>
+<form asp-action="Edit" method="post">
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#general">Genel</a></li>
+            <li><a data-toggle="tab" href="#recievedBooks">Aldığı kitaplar</a></li>
+
+        </ul>
+        <div class="tab-content">
+            <div id="general" class="tab-pane fade in active">
+
+
+
+                <div class="form-group">
+                    <label asp-for="Ad" class="control-label  col-md-2"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Ad" class="form-control" placeholder="Ad" />
+                        <span asp-for="Ad" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="Soyad" class="control-label  col-md-2"></label>
+                    <div class="col-md-10">
+                        <input asp-for="Soyad" class="form-control" placeholder="Soyad" />
+                        <span asp-for="Soyad" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="UyelikTarihi" class="control-label  col-md-2"></label>
+                    <div class="col-md-10">
+                        <input asp-for="UyelikTarihi" class="form-control" placeholder="uyelikTarihi" />
+                        <span asp-for="UyelikTarihi" class="text-danger"></span>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div id="recievedBooks" class="tab-pane fade">
+                <h3>Menu 1</h3>
+                <p>some cotent in menu 1.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-2">
+                <button type="submit" class="btn btn-primary">Kaydet</button>
+                <a asp-action="Index" class="btn btn-danger">İptal</a>
+            </div>
+
+        </div>
+    </div>
+
+</form>
+
+
+

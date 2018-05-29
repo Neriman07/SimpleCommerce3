@@ -1,0 +1,27 @@
+﻿@model IList<Friend>
+
+<a asp-action="Create" class="btn  btn-primary">Yeni arkadaş</a>
+<table class="table table-striped table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Ad</th>
+        <th>Dogum Tarihi</th>
+    </tr>
+    @foreach (var arkadas in Model)
+    {
+        <tr>
+            <td>@arkadas.Id</td>
+            <td><a asp-action="Details" asp-route-id="@arkadas.Id"> @arkadas.Name</a> </td>
+            <td>@arkadas.BirthDate</td>
+            <td>@string.Format("{0:dd MMM yyyy}",arkadas.BirthDate)</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@arkadas.Id" 
+                   class="btn btn-success">Düzenle</a>
+
+                <a asp-action="Delete" asp-route-id="@arkadas.Id"
+                   onclick="return confirm('Bu kaydı silmek istediğinize emin misin?')" 
+                   class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+</table>

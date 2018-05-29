@@ -1,0 +1,24 @@
+﻿
+@model Friend
+@{
+    ViewData["Title"] = "Arkadas Detayları";
+}
+
+<h2>Details</h2>
+<div class="row">
+    <div class="col-md-2">
+        <strong>Id:</strong><br />
+        <strong>Ad soyad:</strong><br />
+        <strong>doğum tarihi:</strong><br />
+
+    </div>
+    <div class="col-md-10">
+        @Model.Id<br />
+        @Model.Name<br />
+        @String.Format("{0:dd MMM yyyy dddd }",Model.BirthDate)<br />
+     
+        <a asp-action="Index" class="btn btn-success">&larr;Geri Dön</a>
+
+
+    </div>
+</div>

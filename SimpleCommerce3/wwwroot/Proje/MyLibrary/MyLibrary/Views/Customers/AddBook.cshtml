@@ -1,0 +1,12 @@
+﻿@model IList<Book>
+@{ Layout = null;}
+<form id="addBookForm" >
+    <select name="bookId" id="bookId">
+        <option value="">Kitap Seçiniz</option>
+        @foreach (var item in Model)
+        {
+            <option value="@item.Id">@item.Name</option>
+
+        }
+    </select>
+</form>

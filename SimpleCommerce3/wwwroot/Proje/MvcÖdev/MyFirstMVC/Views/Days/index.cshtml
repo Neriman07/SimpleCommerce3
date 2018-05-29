@@ -1,0 +1,22 @@
+﻿@model IList<Day>
+@{
+    ViewData["Title"] = "Günler";
+}
+
+<h2>Günler</h2>
+<a asp-action="Create" class="btn  btn-primary">Doğum günü ekle</a>
+<table class="table table-striped table-hover">
+    <tr><th>Id</th> <th>Ad</th><th>Dogum günü</th></tr>
+    @foreach (var day in Model)
+    {
+        <tr>
+            <td>@day.Id</td>
+            <td>@day.Name</td>
+            <td>@day.DogumGunu</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@day.Id" class="btn btn-success">Düzenle</a>
+                <a asp-action="Delete" asp-route-id="@day.Id" class="btn btn-danger">Sil</a>
+            </td>
+        </tr>
+    }
+</table>
