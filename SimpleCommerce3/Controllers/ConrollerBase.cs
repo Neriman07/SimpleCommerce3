@@ -10,6 +10,7 @@ namespace SimpleCommerce3.Controllers
 {
     public class ControllerBase:Controller
     {
+        // veritabanına bağlanmak için
         protected readonly ApplicationDbContext _context;
         public ControllerBase(ApplicationDbContext context)
         {
