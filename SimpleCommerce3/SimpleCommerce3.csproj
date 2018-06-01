@@ -23,4 +23,8 @@
     <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReflectionIT.Mvc.Paging\ReflectionIT.Mvc.Paging.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -27,8 +27,8 @@
                 <label asp-for="Photo" class="control-label"></label>
                 @if (!string.IsNullOrEmpty(Model.Photo))
                 {
-                    
-                <img src="~/uploads/@Model.Photo" width="50" />
+
+                    <img src="~/uploads/@Model.Photo" width="50" />
 
                 }
                 <input name="File" type="file" class="form-control" />
@@ -47,6 +47,25 @@
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
                 <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateData" class="control-label"></label>
+                <input asp-for="CreateData" class="form-control" />
+                <span asp-validation-for="CreateData" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsFeatured" /> @Html.DisplayNameFor(model => model.IsFeatured)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
+                    </label>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using ReflectionIT.Mvc.Paging;
 using SimpleCommerce3.Data;
 using SimpleCommerce3.Models;
 
@@ -27,10 +29,13 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId=null,int page=1, string sortExpression="CreateData")
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            var products = _context.Products.Include(p => p.Category).Where(p => (categoryId.HasValue?p.CategoryId == categoryId: true));
+            var model = await PagingList.CreateAsync(products, 10, page, sortExpression, "CreateData");
+            model.RouteValue = new RouteValueDictionary { { "categoryId",categoryId } };
+            ViewBag.Categories =new SelectList( _context.Categories.ToList(),"Id","Name",categoryId);
+            return View(model);
         }
 
         // GET: Admin/Products/Details/5
@@ -65,7 +70,7 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,Photo,Price,Stock,CategoryId")]
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Photo,Price,Stock,CategoryId,IsFeatured,IsPublished")]
         Product product,IFormFile File)
           
         {
@@ -122,7 +127,7 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Photo,Price," +
-            "Stock,CategoryId")] Product product, IFormFile File)
+            "Stock,CategoryId,IsFeatured,IsPublished")] Product product, IFormFile File)
         {
             if (id != product.Id)
             {
@@ -208,5 +213,7 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
+       
     }
 }
+

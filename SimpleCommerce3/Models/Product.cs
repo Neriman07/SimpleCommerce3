@@ -9,6 +9,10 @@ namespace SimpleCommerce3.Models
 {
     public class Product
     {
+        public Product()
+        {
+            CreateData = DateTime.Now;
+        }
         public int Id { get; set; }
         [Required]
         [StringLength(200)]
@@ -29,5 +33,14 @@ namespace SimpleCommerce3.Models
         [ForeignKey("CategoryId")]
         [Display(Name = "Kategori")]
         public Category Category{get; set;}
-}
+        [Display(Name = "Oluşturulma Tarihi")]
+        public DateTime? CreateData { get; set; }
+
+        [Display(Name = "Öne Çıkan Mı ?:")]
+        public bool IsFeatured { get; set; }
+
+        [Display(Name = "Yayında Mı? :")]
+        public bool IsPublished { get; set; }
+
+    }
 }
