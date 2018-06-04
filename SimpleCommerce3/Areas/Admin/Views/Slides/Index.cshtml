@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="tblRecords" class="table">
     <thead>
         <tr>
             <th>
@@ -21,9 +21,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Position)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Photo)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Url)
             </th>

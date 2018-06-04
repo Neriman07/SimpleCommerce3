@@ -9,7 +9,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table id="tblRecords"  class="table">
     <thead>
         <tr>
             <th>
@@ -39,4 +39,3 @@
 }
     </tbody>
 </table>
-<vc:pager paging-list="@Model" />
