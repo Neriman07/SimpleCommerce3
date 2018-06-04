@@ -1,13 +1,13 @@
 ﻿@model SimpleCommerce3.Models.Product
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Ayrıntılar";
 }
 
-<h2>Details</h2>
+<h2>Ayrıntılar</h2>
 
 <div>
-    <h4>Product</h4>
+    <h4>Ürün</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -20,14 +20,14 @@
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)<br /><br />
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd>
-            <img src="~/uploads/@Model.Photo" width="50" /><br />
-            @Html.DisplayFor(model => model.Photo)<br /><br />
+            <img src="~/Uploads/@Model.Photo" width="50" /><br />
+            @Html.DisplayFor(model => model.Photo)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Price)
@@ -50,7 +50,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-success">Düzenle</a> |
+    <a asp-action="Index" class="btn btn-warning">Geri Dön</a>
 </div>
-

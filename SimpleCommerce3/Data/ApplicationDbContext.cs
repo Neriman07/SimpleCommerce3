@@ -13,6 +13,8 @@ namespace SimpleCommerce3.Data
         public DbSet<SimpleCommerce3.Models.Product> Products{ get; set; }
         public DbSet<SimpleCommerce3.Models.Category> Categories { get; set; }
         public DbSet<SimpleCommerce3.Models.Slide> Slides { get; set; }
+        public DbSet<SimpleCommerce3.Models.Cart> Carts { get; set; }
+        public DbSet<SimpleCommerce3.Models.CartItem> cartItems { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

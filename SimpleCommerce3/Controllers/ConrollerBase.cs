@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using SimpleCommerce3.Data;
+using SimpleCommerce3.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,28 @@ namespace SimpleCommerce3.Controllers
         {
             var controller = context.Controller as Controller;
             controller.ViewBag.Categories = _context.Categories.ToList();
+
+            //oturum açmış kullanıcının adını alıyor
+            string owner = User.Identity.Name;
+           
+            if (string.IsNullOrEmpty(owner))
+            {
+                //oturum açmayan kullanıcıyı sitede takip eder
+                owner = HttpContext.Session.Id;
+            }
+            controller.ViewBag.CartItemCount =GetCart(owner).CartItems.Sum(c=>c.Quantity);
             base.OnActionExecuting(context);
         }
+       protected Cart GetCart(string owner)
+       {  
+            Cart cart = _context.Carts.Include(i => i.CartItems).Where(c => c.Owner == owner).FirstOrDefault();
+            if (cart == null)
+            {
+                cart = new Cart();
+                cart.Owner = owner;
+                _context.Carts.Add(cart);
+            }
+            return cart;
+       }
     }
 }

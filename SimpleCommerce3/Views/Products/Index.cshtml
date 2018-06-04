@@ -118,7 +118,7 @@
 
                                 <div class="product">
                                     <div class="product-image">
-                                        <a href="@Url.Action("Details","Products" ,new { Id = product.Name })">
+                                        <a href="@Url.Action("Details", "Products", new { id=product.Id })">
                                             <img alt="@product.Name" src="~/Uploads/@product.Photo">
                                         </a>
                                         <span class="product-new">NEW</span>
@@ -126,7 +126,7 @@
                                             <a href="/#"><i class="fa fa-heart"></i></a>
                                         </span>
                                         <div class="product-overlay">
-                                            <a href="/include/ajax/example-shop-product.html" data-lightbox-type="ajax">Quick View</a>
+                                            <a href="@Url.Action("Summary", "Products", new { id=product.Id })" data-lightbox-type="ajax">Quick View</a>
                                         </div>
                                     </div>
                                     <div class="product-description">

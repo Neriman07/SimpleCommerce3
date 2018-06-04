@@ -213,7 +213,15 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
         {
             return _context.Products.Any(e => e.Id == id);
         }
-       
+       public IActionResult Details(int id)
+        {
+            var product = _context.Products.Where(p => p.IsPublished == true && p.Id == id).FirstOrDefault();
+            if (product==null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
     }
 }
 

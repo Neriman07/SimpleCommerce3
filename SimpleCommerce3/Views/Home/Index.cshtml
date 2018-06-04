@@ -39,10 +39,10 @@
                     <div class="col-md-3">
                         <div class="product">
                             <div class="product-image">
-                                <a href="#">
+                                <a href="@Url.Action("Details","Products" ,new { Id = product.Id })">
                                     <img alt="Shop product image!" src="~/uploads/@product.Photo" style="width:100px; height:100px;">
                                 </a>
-                                <a href="#">
+                                <a href="@Url.Action("Details","Products" ,new { Id = product.Id })">
                                     <img alt="Shop product image!" src="/images/shop/products/1.jpg"style="width:115px; height:130px;">
                                 </a>
                                 

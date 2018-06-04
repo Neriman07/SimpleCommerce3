@@ -47,6 +47,24 @@ namespace SimpleCommerce3.Controllers
 
 
         }
+        public IActionResult Details(int id)
+        {
+            var product = _context.Products.Include(i => i.Category).Where(p => p.IsPublished == true && p.Id == id).FirstOrDefault();
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+        public IActionResult Summary(int id)
+        {
+            var product = _context.Products.Include(i => i.Category).Where(p => p.IsPublished == true && p.Id == id).FirstOrDefault();
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
 
     }
    
