@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimpleCommerce3.Data;
@@ -19,6 +20,25 @@ namespace SimpleCommerce3.Controllers
         {
             return View();
         }
+        public IActionResult RemoveFromCart(int cartItemId)//Sepete eklenen ürünlerden istediğimizi kaldırmamızı sağlıyor
+        {
+
+            string owner = User.Identity.Name;//oturum açmış kullanıcının adını alıyor
+            if (string.IsNullOrEmpty(owner))
+            {
+                //oturum açmayan kullanıcıyı sitede takip eder
+                owner = HttpContext.Session.Id;
+            }
+            Cart cart = GetCart(owner);
+            var cartItemToRemove = cart.CartItems.Where(ci => ci.Id == cartItemId).FirstOrDefault();
+
+            if (cartItemToRemove!=null)
+            {
+                cart.CartItems.Remove(cartItemToRemove);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Cart");
+        }
         public IActionResult AddToCart(int productId)
         {
             string owner = User.Identity.Name;//oturum açmış kullanıcının adını alıyor
@@ -27,7 +47,7 @@ namespace SimpleCommerce3.Controllers
                 //oturum açmayan kullanıcıyı sitede takip eder
                 owner = HttpContext.Session.Id;
             }
-            var cart = GetCart(owner);
+            Cart cart = GetCart(owner);
             CartItem cartItem = cart.CartItems.Where(c => c.ProductId == productId).FirstOrDefault();
             if (cartItem==null)
             {
@@ -42,10 +62,21 @@ namespace SimpleCommerce3.Controllers
                 cartItem.Quantity += 1;
             }
             _context.SaveChanges();
-            return Json(true);
+            HttpContext.Session.SetString("CartId", cart.Id.ToString());
+            return Json(cart.CartItems.Sum(ci=>ci.Quantity));
         }
 
        
-       
+       public IActionResult Cart()
+        {
+            string owner = User.Identity.Name;//oturum açmış kullanıcının adını alıyor
+            if (string.IsNullOrEmpty(owner))
+            {
+                //oturum açmayan kullanıcıyı sitede takip eder
+                owner = HttpContext.Session.Id;
+            }
+            Cart cart = GetCart(owner);
+            return View(cart);
+        }
     }
 }
