@@ -44,7 +44,8 @@ namespace SimpleCommerce3.Controllers
             _context.SaveChanges();
             return Json(true);
         }
-      
+
+       
        
     }
 }

@@ -38,6 +38,7 @@ namespace SimpleCommerce3
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+            services.AddSession();
             services.AddPaging(options =>
             {
                 options.ViewName = "Bootstrap4";
@@ -63,7 +64,7 @@ namespace SimpleCommerce3
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
