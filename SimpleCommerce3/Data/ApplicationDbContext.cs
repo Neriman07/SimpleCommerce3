@@ -15,6 +15,9 @@ namespace SimpleCommerce3.Data
         public DbSet<SimpleCommerce3.Models.Slide> Slides { get; set; }
         public DbSet<SimpleCommerce3.Models.Cart> Carts { get; set; }
         public DbSet<SimpleCommerce3.Models.CartItem> cartItems { get; set; }
+        public DbSet<SimpleCommerce3.Models.Order> Orders { get; set; }
+        public DbSet<SimpleCommerce3.Models.Customer> Customers { get; set; }
+        public DbSet<SimpleCommerce3.Models.Region> Regions { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

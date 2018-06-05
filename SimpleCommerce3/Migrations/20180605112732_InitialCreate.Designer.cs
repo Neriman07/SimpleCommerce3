@@ -6,13 +6,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using SimpleCommerce3.Data;
+using SimpleCommerce3.Models;
 using System;
 
-namespace SimpleCommerce3.Data.Migrations
+namespace SimpleCommerce3.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180530112436_AddPosition")]
-    partial class AddPosition
+    [Migration("20180605112732_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -180,6 +181,38 @@ namespace SimpleCommerce3.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("SimpleCommerce3.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Owner");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("SimpleCommerce3.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CartId");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("cartItems");
+                });
+
             modelBuilder.Entity("SimpleCommerce3.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -196,6 +229,90 @@ namespace SimpleCommerce3.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("SimpleCommerce3.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BillingAddress");
+
+                    b.Property<string>("BillingCompanyName");
+
+                    b.Property<string>("BillingCountry");
+
+                    b.Property<string>("BillingCounty");
+
+                    b.Property<string>("BillingDistrict");
+
+                    b.Property<string>("BillingEmail");
+
+                    b.Property<string>("BillingFirstName");
+
+                    b.Property<string>("BillingIdentityName");
+
+                    b.Property<string>("BillingLastName");
+
+                    b.Property<string>("BillingPhone");
+
+                    b.Property<string>("BillingStreet");
+
+                    b.Property<string>("BillingZipCode");
+
+                    b.Property<string>("ShipingAddress");
+
+                    b.Property<string>("ShipingCompanyName");
+
+                    b.Property<string>("ShipingCountry");
+
+                    b.Property<string>("ShipingCounty");
+
+                    b.Property<string>("ShipingDistrict");
+
+                    b.Property<string>("ShipingEmail");
+
+                    b.Property<string>("ShipingFirstName");
+
+                    b.Property<string>("ShipingIdentityName");
+
+                    b.Property<string>("ShipingLastName");
+
+                    b.Property<string>("ShipingPhone");
+
+                    b.Property<string>("ShipingStreet");
+
+                    b.Property<string>("ShipingZipCode");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("SimpleCommerce3.Models.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CartId");
+
+                    b.Property<DateTime>("CreateDate");
+
+                    b.Property<int>("CustomerId");
+
+                    b.Property<int>("OrderStatus");
+
+                    b.Property<string>("Owner");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("SimpleCommerce3.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -203,7 +320,13 @@ namespace SimpleCommerce3.Data.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<DateTime?>("CreateData");
+
                     b.Property<string>("Description");
+
+                    b.Property<bool>("IsFeatured");
+
+                    b.Property<bool>("IsPublished");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -221,6 +344,26 @@ namespace SimpleCommerce3.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("SimpleCommerce3.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("ParentRegionId");
+
+                    b.Property<int>("RegionType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentRegionId");
+
+                    b.ToTable("Regions");
                 });
 
             modelBuilder.Entity("SimpleCommerce3.Models.Slide", b =>
@@ -292,12 +435,45 @@ namespace SimpleCommerce3.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("SimpleCommerce3.Models.CartItem", b =>
+                {
+                    b.HasOne("SimpleCommerce3.Models.Cart", "Cart")
+                        .WithMany("CartItems")
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SimpleCommerce3.Models.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SimpleCommerce3.Models.Order", b =>
+                {
+                    b.HasOne("SimpleCommerce3.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("SimpleCommerce3.Models.Customer", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("SimpleCommerce3.Models.Product", b =>
                 {
                     b.HasOne("SimpleCommerce3.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SimpleCommerce3.Models.Region", b =>
+                {
+                    b.HasOne("SimpleCommerce3.Models.Region", "ParentRegion")
+                        .WithMany()
+                        .HasForeignKey("ParentRegionId");
                 });
 #pragma warning restore 612, 618
         }

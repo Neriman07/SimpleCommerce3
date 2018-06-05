@@ -78,5 +78,9 @@ namespace SimpleCommerce3.Controllers
             Cart cart = GetCart(owner);
             return View(cart);
         }
+        public IActionResult Checkout()
+        {
+            return View();
+        }
     }
 }
