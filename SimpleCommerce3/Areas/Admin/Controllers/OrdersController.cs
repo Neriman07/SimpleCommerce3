@@ -9,26 +9,27 @@ using Microsoft.EntityFrameworkCore;
 using SimpleCommerce3.Data;
 using SimpleCommerce3.Models;
 
-namespace SimpleCommerce3.Areas.Admin.Controllers
+namespace SimpleCommerce3.Areas.Admin
 {
     [Area("Admin")]
     [Authorize]
-    public class CustomersController : Controller
+    public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public OrdersController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Customers
+        // GET: Admin/Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var applicationDbContext = _context.Orders.Include(o => o.Cart).Include(o => o.Customer);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Admin/Customers/Details/5
+        // GET: Admin/Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +37,45 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var order = await _context.Orders
+                .Include(o => o.Cart)
+                .Include(o => o.Customer)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(order);
         }
 
-        // GET: Admin/Customers/Create
+        // GET: Admin/Orders/Create
         public IActionResult Create()
         {
+            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Owner");
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "FullName");
             return View();
         }
 
-        // POST: Admin/Customers/Create
+        // POST: Admin/Orders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BillingFirstName,BillingLastName,BillingIdentityName,BillingCompanyName,BillingCountry,BillingCity,BillingDistrict,BillingStreet,BillingCounty,BillingAddress,BillingZipCode,BillingEmail,BillingPhone,ShipingFirstName,ShipingLastName,ShipingIdentityName,ShipingCompanyName,ShipingCountry,ShipingCity,ShipingDistrict,ShipingStreet,ShipingCounty,ShipingAddress,ShipingZipCode,ShipingEmail,ShipingPhone,UserName")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,CreateDate,Owner,CartId,CustomerId,OrderStatus,ShippingNotes")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Owner", order.CartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "FullName", order.CustomerId);
+            return View(order);
         }
 
-        // GET: Admin/Customers/Edit/5
+        // GET: Admin/Orders/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +83,24 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var order = await _context.Orders.SingleOrDefaultAsync(m => m.Id == id);
+            if (order == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Owner", order.CartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "FullName", order.CustomerId);
+            return View(order);
         }
 
-        // POST: Admin/Customers/Edit/5
+        // POST: Admin/Orders/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BillingFirstName,BillingLastName,BillingIdentityName,BillingCompanyName,BillingCountry,BillingCity,BillingDistrict,BillingStreet,BillingCounty,BillingAddress,BillingZipCode,BillingEmail,BillingPhone,ShipingFirstName,ShipingLastName,ShipingIdentityName,ShipingCompanyName,ShipingCountry,ShipingCity,ShipingDistrict,ShipingStreet,ShipingCounty,ShipingAddress,ShipingZipCode,ShipingEmail,ShipingPhone,UserName")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CreateDate,Owner,CartId,CustomerId,OrderStatus,ShippingNotes")] Order order)
         {
-            if (id != customer.Id)
+            if (id != order.Id)
             {
                 return NotFound();
             }
@@ -100,12 +109,12 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!OrderExists(order.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +125,12 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["CartId"] = new SelectList(_context.Carts, "Id", "Owner", order.CartId);
+            ViewData["CustomerId"] = new SelectList(_context.Customers, "Id", "FullName", order.CustomerId);
+            return View(order);
         }
 
-        // GET: Admin/Customers/Delete/5
+        // GET: Admin/Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,30 +138,32 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var order = await _context.Orders
+                .Include(o => o.Cart)
+                .Include(o => o.Customer)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(order);
         }
 
-        // POST: Admin/Customers/Delete/5
+        // POST: Admin/Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Customers.Remove(customer);
+            var order = await _context.Orders.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool OrderExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Orders.Any(e => e.Id == id);
         }
     }
 }

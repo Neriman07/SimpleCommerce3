@@ -13,22 +13,23 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    public class CustomersController : Controller
+    public class RegionsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public CustomersController(ApplicationDbContext context)
+        public RegionsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Customers
+        // GET: Admin/Regions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            var applicationDbContext = _context.Regions.Include(r => r.ParentRegion);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Admin/Customers/Details/5
+        // GET: Admin/Regions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,39 +37,42 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var region = await _context.Regions
+                .Include(r => r.ParentRegion)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (region == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(region);
         }
 
-        // GET: Admin/Customers/Create
+        // GET: Admin/Regions/Create
         public IActionResult Create()
         {
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name");
             return View();
         }
 
-        // POST: Admin/Customers/Create
+        // POST: Admin/Regions/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BillingFirstName,BillingLastName,BillingIdentityName,BillingCompanyName,BillingCountry,BillingCity,BillingDistrict,BillingStreet,BillingCounty,BillingAddress,BillingZipCode,BillingEmail,BillingPhone,ShipingFirstName,ShipingLastName,ShipingIdentityName,ShipingCompanyName,ShipingCountry,ShipingCity,ShipingDistrict,ShipingStreet,ShipingCounty,ShipingAddress,ShipingZipCode,ShipingEmail,ShipingPhone,UserName")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Code,Name,ParentRegionId,RegionType")] Region region)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+                _context.Add(region);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
+            return View(region);
         }
 
-        // GET: Admin/Customers/Edit/5
+        // GET: Admin/Regions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +80,23 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var region = await _context.Regions.SingleOrDefaultAsync(m => m.Id == id);
+            if (region == null)
             {
                 return NotFound();
             }
-            return View(customer);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
+            return View(region);
         }
 
-        // POST: Admin/Customers/Edit/5
+        // POST: Admin/Regions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BillingFirstName,BillingLastName,BillingIdentityName,BillingCompanyName,BillingCountry,BillingCity,BillingDistrict,BillingStreet,BillingCounty,BillingAddress,BillingZipCode,BillingEmail,BillingPhone,ShipingFirstName,ShipingLastName,ShipingIdentityName,ShipingCompanyName,ShipingCountry,ShipingCity,ShipingDistrict,ShipingStreet,ShipingCounty,ShipingAddress,ShipingZipCode,ShipingEmail,ShipingPhone,UserName")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Code,Name,ParentRegionId,RegionType")] Region region)
         {
-            if (id != customer.Id)
+            if (id != region.Id)
             {
                 return NotFound();
             }
@@ -100,12 +105,12 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
+                    _context.Update(region);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.Id))
+                    if (!RegionExists(region.Id))
                     {
                         return NotFound();
                     }
@@ -116,10 +121,11 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customer);
+            ViewData["ParentRegionId"] = new SelectList(_context.Regions, "Id", "Name", region.ParentRegionId);
+            return View(region);
         }
 
-        // GET: Admin/Customers/Delete/5
+        // GET: Admin/Regions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,30 +133,31 @@ namespace SimpleCommerce3.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
+            var region = await _context.Regions
+                .Include(r => r.ParentRegion)
                 .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            if (region == null)
             {
                 return NotFound();
             }
 
-            return View(customer);
+            return View(region);
         }
 
-        // POST: Admin/Customers/Delete/5
+        // POST: Admin/Regions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Customers.Remove(customer);
+            var region = await _context.Regions.SingleOrDefaultAsync(m => m.Id == id);
+            _context.Regions.Remove(region);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private bool RegionExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _context.Regions.Any(e => e.Id == id);
         }
     }
 }

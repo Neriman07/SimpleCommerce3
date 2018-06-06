@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -64,8 +65,15 @@ namespace SimpleCommerce3.Controllers
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
-                {
+                {//kullanıcı oturum açmadan sepete ürün eklemiş oturum açtıktan sonra sepeti unutmaması için bunları yazdık
                     _logger.LogInformation("User logged in.");
+                    var cartId =Convert.ToInt32(HttpContext.Session.GetString("CartId"));
+                    var cart = _context.Carts.FirstOrDefault(c => c.Id == cartId);
+                    if (cart!=null)
+                    {
+                        cart.Owner = User.Identity.Name;
+                        _context.SaveChanges();
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -10,9 +10,10 @@
 <h4>Customer</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="BillingFirstName" class="control-label"></label>
                 <input asp-for="BillingFirstName" class="form-control" />
@@ -39,6 +40,11 @@
                 <span asp-validation-for="BillingCountry" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="BillingCity" class="control-label"></label>
+                <input asp-for="BillingCity" class="form-control" />
+                <span asp-validation-for="BillingCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="BillingDistrict" class="control-label"></label>
                 <input asp-for="BillingDistrict" class="form-control" />
                 <span asp-validation-for="BillingDistrict" class="text-danger"></span>
@@ -53,6 +59,8 @@
                 <input asp-for="BillingCounty" class="form-control" />
                 <span asp-validation-for="BillingCounty" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="BillingAddress" class="control-label"></label>
                 <input asp-for="BillingAddress" class="form-control" />
@@ -98,6 +106,14 @@
                 <input asp-for="ShipingCountry" class="form-control" />
                 <span asp-validation-for="ShipingCountry" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="ShipingCity" class="control-label"></label>
+                <input asp-for="ShipingCity" class="form-control" />
+                <span asp-validation-for="ShipingCity" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="ShipingDistrict" class="control-label"></label>
                 <input asp-for="ShipingDistrict" class="form-control" />
@@ -113,6 +129,7 @@
                 <input asp-for="ShipingCounty" class="form-control" />
                 <span asp-validation-for="ShipingCounty" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ShipingAddress" class="control-label"></label>
                 <input asp-for="ShipingAddress" class="form-control" />
@@ -141,9 +158,10 @@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </form>
+ </div>
+
 
 <div>
     <a asp-action="Index">Back to List</a>
