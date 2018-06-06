@@ -1,0 +1,169 @@
+﻿@model SimpleCommerce3.Models.Customer
+
+@{
+    ViewData["Title"] = "Details";
+    
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Customer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingFirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingLastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingLastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingIdentityName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingIdentityName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCompanyName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingCompanyName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCountry)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingCountry)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingDistrict)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingDistrict)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingStreet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingStreet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCounty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingCounty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingZipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingZipCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingPhone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BillingPhone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingFirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingFirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingLastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingLastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingIdentityName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingIdentityName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingCompanyName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingCompanyName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingCountry)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingCountry)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingDistrict)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingDistrict)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingStreet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingStreet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingCounty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingCounty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingZipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingZipCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipingPhone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipingPhone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

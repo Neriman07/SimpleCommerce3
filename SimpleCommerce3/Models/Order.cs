@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleCommerce3.Models
 {
-    public class Order
+    public class Order // Sipariş
     {
         public Order()
         {

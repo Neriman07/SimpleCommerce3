@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleCommerce3.Models
 {
-    public class Region
+    public class Region// Bölge
     {
         public int Id { get; set; }
         public string Code { get; set; }

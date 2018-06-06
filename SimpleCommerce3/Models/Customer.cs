@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SimpleCommerce3.Models
 {
-    public class Customer
+    public class Customer // Müşteri
     {
         public int Id { get; set; }
         public string BillingFirstName { get; set; }
